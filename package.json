@@ -1,0 +1,25 @@
+{
+  "name": "checkers",
+  "version": "1.0.0",
+  "description": "Play a game of checkers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/app.js",
+    "server-dev": "nodemon server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajpawlicki/checkers.git"
+  },
+  "author": "Aloysius Pawlicki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajpawlicki/checkers/issues"
+  },
+  "homepage": "https://github.com/ajpawlicki/checkers#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jest": "^21.2.1"
+  }
+}
