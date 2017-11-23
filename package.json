@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/ajpawlicki/checkers#readme",
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
     "jest": "^21.2.1"
   }
 }
