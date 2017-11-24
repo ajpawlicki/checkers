@@ -1,24 +1,23 @@
 # checkers
 Play a game of checkers.
 
-## Logs
-* Looked up how to load css stylesheet.
-* Looked up element.classList.add('class').
-
 ## How to run
 * In local directory, run `npm install` to load dependencies.
 * Then run `npm start` to start app.
 * Go to `localhost:7000` in your browser.
 
 ## Tests
-* Haven't been set up yet.
+* Jest unit tests.
 
 ## How to interact with game
-* Work in progress.
+* Click on piece then click on square to make a move.
 
 ## Todo
 * Many things.
-* Figure out game logic in class.
-* Figure out logic to make UI interactive.
-* Tests.
-* Styling.
+* Figure out multiple jumps logic and King logic.
+* More tests.
+* More styling.
+
+## Logs
+* Looked up how to load css stylesheet.
+* Looked up element.classList.add('class').
