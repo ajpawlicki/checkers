@@ -12,8 +12,8 @@ window.onload = () => {
     if (event && event.target.classList.contains('piece')) {
       const square = event.target.parentNode;
       
-      let row = square.getAttribute('data-row');
-      let col = square.getAttribute('data-col');
+      let row = +square.getAttribute('data-row');
+      let col = +square.getAttribute('data-col');
 
       move = {
         piece: +event.target.getAttribute('data-piece'),
@@ -23,8 +23,8 @@ window.onload = () => {
     }
 
     if (move && event.target.classList.contains('dark') ) {
-      let row = event.target.getAttribute('data-row');
-      let col = event.target.getAttribute('data-col');
+      let row = +event.target.getAttribute('data-row');
+      let col = +event.target.getAttribute('data-col');
       
       move.toPosition = { row, col };
       
