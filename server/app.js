@@ -19,7 +19,7 @@ app.post('/postMove', (req, res) => {
   const move = req.body;
   
   try {
-    checkers.movePiece(+move.piece, move.fromPosition, move.toPosition);
+    checkers.movePiece(move.piece, move.fromPosition, move.toPosition);
   }
   catch (err) {
     res.status(400);

@@ -12,7 +12,7 @@ class Checkers {
         if ((i + j) % 2 === 0) { // pieces can't move to this square
           this.board[i][j] = null;
         } else {
-          this.board[i][j] = new Square();
+          this.board[i][j] = new Square(i, j);
 
           if (i <= 2) this.board[i][j].addPiece(1);
           if (i >= 5) this.board[i][j].addPiece(2);
@@ -36,27 +36,80 @@ class Checkers {
     return false;
   }
 
-  isValidMoveUp(piece, fromPosition, toPosition, delta = 1) {
-    // If neighboring square is not occupied then return true if valid row and valid col
-    const isValidRow = +fromPosition.row - delta === +toPosition.row;
-    const isValidRightCol = +fromPosition.col + delta === +toPosition.col
-    const isValidLeftCol = +fromPosition.col - delta === +toPosition.col;
+  isValidMoveUp(piece, fromPosition, toPosition) {
+    const potentialMoveRow = fromPosition.row - 1;
+    const potentialLeftMoveCol = fromPosition.col - 1;
+    const potentialRightMoveCol = fromPosition.col + 1;
 
-    return (isValidRow && isValidLeftCol) || (isValidRow && isValidRightCol);
+    const potentialLeftMoveSquare = this.getSquare(potentialMoveRow, potentialLeftMoveCol);
+    const potentialRightMoveSquare = this.getSquare(potentialMoveRow, potentialRightMoveCol);
+    
+    if (potentialLeftMoveSquare && !potentialLeftMoveSquare.isOccupied()
+      && this.isSameSquare(toPosition, potentialLeftMoveSquare)) {
+        return true;
+    }
 
-    // If neighboring square is occupied then check if it's a valid move if delta is incremented
-    // Can only make recursive call if "jumping"
+    if (potentialRightMoveSquare && !potentialRightMoveSquare.isOccupied()
+      && this.isSameSquare(toPosition, potentialRightMoveSquare)) {
+        return true;
+    }
+
+    return this.handleJump(piece, fromPosition, toPosition, -1);
   }
 
-  checkIfNeighborsAreOccupied(pos) {
+  handleJump(piece, fromPosition, toPosition, delta) {
+    const potentialLeftMoveSquare = this.getSquare(fromPosition.row + delta, fromPosition.col - 1);
+    const potentialRightMoveSquare = this.getSquare(fromPosition.row + delta, fromPosition.col + 1);
 
+    const leftJumpSquare = this.getSquare(fromPosition.row + (delta * 2), fromPosition.col - 2);
+    
+    if (leftJumpSquare && !leftJumpSquare.isOccupied()
+      && potentialLeftMoveSquare.hasDiffPiece(piece)
+      && this.isSameSquare(toPosition, leftJumpSquare)) {
+        potentialLeftMoveSquare.removePiece();
+        return true;
+    }
+
+    const rightJumpSquare = this.getSquare(fromPosition.row + (delta * 2), fromPosition.col + 2);
+    
+    if (rightJumpSquare && !rightJumpSquare.isOccupied()
+      && potentialRightMoveSquare.hasDiffPiece(piece)
+      && this.isSameSquare(toPosition, rightJumpSquare)) {
+        potentialRightMoveSquare.removePiece();
+        return true;
+    }
+    
+    // if (this.handleJump(piece, fromPosition, toPosition, delta * 2) === true) return true;
   }
-
+  
   isValidMoveDown(piece, fromPosition, toPosition) {
-    const isValidRow = +fromPosition.row + 1 === +toPosition.row;
-    const isValidCol = +fromPosition.col + 1 === +toPosition.col || +fromPosition.col - 1 === +toPosition.col;
+    const potentialMoveRow = fromPosition.row + 1;
+    const potentialLeftMoveCol = fromPosition.col - 1;
+    const potentialRightMoveCol = fromPosition.col + 1;
 
-    return isValidRow && isValidCol;
+    const potentialLeftMoveSquare = this.getSquare(potentialMoveRow, potentialLeftMoveCol);
+    const potentialRightMoveSquare = this.getSquare(potentialMoveRow, potentialRightMoveCol);
+    
+    if (potentialLeftMoveSquare && !potentialLeftMoveSquare.isOccupied()
+      && this.isSameSquare(toPosition, potentialLeftMoveSquare)) {
+        return true;
+    }
+
+    if (potentialRightMoveSquare && !potentialRightMoveSquare.isOccupied()
+      && this.isSameSquare(toPosition, potentialRightMoveSquare)) {
+        return true;
+    }
+
+    return this.handleJump(piece, fromPosition, toPosition, 1);
+  }
+
+  getSquare(row, col) {
+    if (this.board[row] && this.board[row][col]) return this.board[row][col];
+    return null;
+  }
+
+  isSameSquare(toPosition, square) {
+    return toPosition.row === square.row && toPosition.col === square.col;
   }
 
   movePiece(piece, fromPosition, toPosition) {
@@ -70,8 +123,10 @@ class Checkers {
 }
 
 class Square {
-  constructor() {
+  constructor(row, col) {
     this.piece = null;
+    this.row = row;
+    this.col = col;
   }
 
   addPiece(piece) {
@@ -88,6 +143,10 @@ class Square {
 
   isOccupied() {
     return this.piece !== null;
+  }
+
+  hasDiffPiece(piece) {
+    return this.piece !== null && this.piece !== piece;
   }
 }
 
