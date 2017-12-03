@@ -21,7 +21,7 @@ window.onload = () => {
 
     }
 
-    if (move && event.target.classList.contains('dark') ) {
+    if (move && event && event.target.classList.contains('dark') ) {
       let row = +event.target.getAttribute('data-row');
       let col = +event.target.getAttribute('data-col');
       
