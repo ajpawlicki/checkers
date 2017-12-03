@@ -1,6 +1,5 @@
 window.onload = () => {
   const boardEl = document.getElementById('board');
-  const rowEls = document;
   
   fetchBoard(boardEl);
   
